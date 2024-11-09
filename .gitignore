@@ -1,0 +1,20 @@
+# Zig
+zig-cache/
+zig-out/
+/release/
+/debug/
+
+# Binaries
+*.o
+*.exe
+zna
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo

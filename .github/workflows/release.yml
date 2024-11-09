@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [
+          { os: 'linux', arch: 'x86_64' },
+          { os: 'macos', arch: 'x86_64' },
+          { os: 'linux', arch: 'aarch64' },
+        ]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.11.0
+
+      - name: Build
+        run: |
+          zig build -Dtarget=${{ matrix.target.os }}-${{ matrix.target.arch }} -Drelease-safe
+          cp zig-out/bin/zna zna-${{ matrix.target.os }}-${{ matrix.target.arch }}
+      
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: zna-${{ matrix.target.os }}-${{ matrix.target.arch }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
