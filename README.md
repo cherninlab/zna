@@ -1,4 +1,4 @@
-<img src="logo.svg" alt="zna" width="100"/>
+<img src="logo.svg" alt="zna" width="200"/>
 
 # zna
 
